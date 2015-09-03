@@ -1,0 +1,44 @@
+{
+    "name": "Dukerspace/Mari",
+    "description": "Mari is CMS base on Laravel 5.1",
+    "keywords": [
+        "CMS",
+        "Mari"
+    ],
+    "homepage": "https://github.com/dukerspace/Mari",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Montol Saklor",
+            "email": ":freespace_master@hotmail.com",
+            "homepage": "https://github.com/dukerspace",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "illuminate/support": "~5.1",
+        "php" : ">=5.3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "4.*",
+        "scrutinizer/ocular": "~1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mari\\Post": "src/post"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mari\\Core\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
