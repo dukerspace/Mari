@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Mari\\Post": "src/post"
+            "Mari\\": "src/"
         }
     },
     "autoload-dev": {
