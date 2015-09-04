@@ -1,10 +1,10 @@
 <?php
 
-namespace Mari\Post\Providers;
+namespace Mari\User\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class CoreServiceProvider extends ServiceProvider
+class UserServiceProvider extends ServiceProvider
 {
     /**
      * Perform post-registration booting of services.
@@ -17,10 +17,11 @@ class CoreServiceProvider extends ServiceProvider
         require __DIR__.'/../Http/routes.php';
       }
 
-      $this->loadViewsFrom(__DIR__.'/../resources/views', 'core');
+      $this->loadTranslationsFrom(__DIR__.'/../Resources/Lang', 'user');
+      // $this->loadViewsFrom(__DIR__.'/../Resources/Views', 'Post');
 
       $this->publishes([
-        __DIR__.'../database/migrations/' => database_path('migrations')
+        __DIR__.'/../Database/Migrations/' => database_path('migrations')
       ], 'migrations');
     }
 

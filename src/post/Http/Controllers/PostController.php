@@ -9,7 +9,7 @@ use View;
 class PostController extends Controller {
 
   public function index() {
-    return View::make('core::post.index');
+    return View::make('Theme::backend.post.index');
   }
 
   public function create() {
