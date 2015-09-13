@@ -3,15 +3,17 @@
 namespace Mari\User\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Auth, Redirect, Request, Validator, View;
+use Auth, Hash, Redirect, Request, Validator, View, Session;
+
 use Mari\User\Http\Repositories\User\UserRepository;
-use Mari\User\Http\Request\CreateUserRequest;
+use Mari\User\Http\Request\UserCreateRequest;
+use Mari\User\Http\Request\UserUpdateRequest;
 
 class UserController extends Controller {
 
-  public function __construct(UserRepository $user)
+  public function __construct(UserRepository $userRepo)
   {
-    $this->user = $user;
+    $this->user = $userRepo;
   }
 
   public function login()
@@ -38,7 +40,10 @@ class UserController extends Controller {
       }
 
       if (Auth::attempt(['username' => $username, 'password' => $password],$remember)) {
-        return Redirect::to('user');
+        $user = Auth::user();
+        Session::put('fisrtname',$user->firstname);
+        Session::put('lastname',$user->lastname);
+        return Redirect::to('user/dashboard');
       } else {
         return Redirect::to('user/login')
           ->withInput()
@@ -58,30 +63,11 @@ class UserController extends Controller {
     return Redirect::to('/');
   }
 
-  public function forgetPassword()
-  {
-
-  }
-
-  public function checkForgetPassword()
-  {
-
-  }
-
-  public function resetPassword()
-  {
-
-  }
-
-  public function checkResetPassword()
-  {
-
-  }
-
   public function index()
   {
-    // $users = $this->user->
-    return View::make('frontend::user.dashboard');
+    $user = $this->user->index();
+    return View::make('frontend::user.index')
+      ->with('user',$user);
   }
 
   public function create()
@@ -89,30 +75,69 @@ class UserController extends Controller {
     return View::make('frontend::user.create');
   }
 
-  public function store(CreateUserRequest $request)
+  public function store(UserCreateRequest $request)
   {
-    $this->user->create($request->all());
+    $data = [
+      'username' => $request->input('username'),
+      'password' => Hash::make($request->input('password')),
+      'email' => $request->input('email'),
+      'firstname' => $request->input('firstname'),
+      'lastname' => $request->input('lastname'),
+      'group_id' => 3,
+    ];
+
+    $this->user->create($data);
     return Redirect::to('user/login');
   }
 
   public function show($id)
   {
-
+    $user = $this->user->show($id);
+    return View::make('frontend::user.show')
+      ->with('user',$user);
   }
 
   public function edit($id)
   {
-
+    $user = $this->user->show($id);
+    return View::make('frontend::user.edit')
+      ->with('user',$user);
   }
 
-  public function update($id)
+  public function update($id,UpdateUserRequest $request)
   {
+    $password = $request->input('password');
+    $email = $request->input('email');
+    $firstname = $request->input('firstname');
+    $lastname = $request->input('lastname');
 
+    $data = [];
+    if (!empty($password)) {
+      $data['password'] = $password;
+    }
+
+    if (!empty($email)) {
+      $data['email'] = $email;
+    }
+
+    if (!empty($fistname)) {
+      $data['fistname'] = $fistname;
+    }
+
+    if (!empty($lastname)) {
+      $data['lastname'] = $lastname;
+    }
+
+    $this->user->update($id,$data);
+    return Redirect::to('user/profile');
   }
 
   public function destroy()
   {
+    $id = Request::input('id');
+    $this->user->delete($id);
 
+    return Response::json(['status' => 'success']);
   }
 
 }

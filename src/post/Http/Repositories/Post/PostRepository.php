@@ -1,31 +1,38 @@
 <?php
 
-namespace Dukerspace\Core\Http\Repositories;
+namespace Mari\Post\Http\Repositories\Post;
 
-use Dukerspace\Core\Http\Repositories\PostInterface;
+use Mari\Post\Http\Repositories\Post\PostInterface;
+use Mari\Post\Http\Models\Post;
 
 class PostRepository implements PostInterface {
 
-  public function paginate();
-
-  public function create()
+  public function paginate($type,$limit)
   {
-
+    return Post::where('category_id',$type)
+      ->paginate($limit);
   }
 
-  public function show()
+  public function create($data)
   {
-
+    Post::insert($data);
   }
 
-  public function update()
+  public function show($id)
   {
-
+    return Post::find($id);
   }
 
-  public function delete()
+  public function update($id,$data)
   {
+    Post::where('post_id',$id)
+      ->update($data);
+  }
 
+  public function delete($id)
+  {
+    Post::where('post_id',$id)
+      ->delete();
   }
 
 }

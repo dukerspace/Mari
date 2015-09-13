@@ -13,9 +13,10 @@ class ThemeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-      // $this->loadViewsFrom(__DIR__.'/../Resources/Views', 'Post');
-      \View::addNamespace('backend',array(base_path().'/resources/views/backend'));
-      \View::addNamespace('frontend',array(base_path().'/resources/views/frontend'));
+      $backend = $this->app['theme']->getBackend();
+      $frontend = $this->app['theme']->getFrontend();
+      \View::addNamespace('backend',base_path('themes/'.$backend));
+      \View::addNamespace('frontend',base_path('themes/'.$frontend));
     }
 
     /**
@@ -25,6 +26,8 @@ class ThemeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+      $this->app->bind('theme', function ($app) {
+        return $this->app->make('Mari\Theme\Http\\Repositories\ThemeRepository');
+      });
     }
 }

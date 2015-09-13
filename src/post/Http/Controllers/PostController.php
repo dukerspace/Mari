@@ -3,37 +3,61 @@
 namespace Mari\Post\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use View;
+use Redirect, View;
 
+use Mari\Post\Http\Repositories\Post\PostRepository;
 
 class PostController extends Controller {
 
-  public function index() {
-    return View::make('Theme::backend.post.index');
+  public function __construct(PostRepository $postRepo)
+  {
+    $this->post = $postRepo;
   }
 
-  public function create() {
-
+  public function index($type = null)
+  {
+    $posts = $this->post->paginate($type,10);
+    return View::make('backend::post.index')
+      ->with('posts',$posts);
   }
 
-  public function store() {
-
+  public function create()
+  {
+    return View::make('backend::post.create');
   }
 
-  public function show() {
-
+  public function store()
+  {
+    $data = $request->all();
+    $this->post->create($data);
+    return Redirect::to('post');
   }
 
-  public function edit() {
-
+  public function show($id)
+  {
+    $post = $this->post->show($id);
+    return View::make('backend.post.index')
+      ->with('post',$post);
   }
 
-  public function update() {
-
+  public function edit($id)
+  {
+    $post = $this->post->show($id);
+    return View::make('backend.post.index')
+      ->with('post',$post);
   }
 
-  public function destroy() {
+  public function update()
+  {
+    $data = $request->all();
+    $this->post->update($data);
+    return Redirect::to('post');
+  }
 
+  public function destroy()
+  {
+    $id = Request::input('id');
+    $this->post->delete($id);
   }
 
 }

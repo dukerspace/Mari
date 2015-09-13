@@ -17,11 +17,14 @@ class PostServiceProvider extends ServiceProvider
         require __DIR__.'/../Http/routes.php';
       }
 
-      // $this->loadViewsFrom(__DIR__.'/../Resources/Views', 'Post');
-
       $this->publishes([
         __DIR__.'/../Database/Migrations/' => database_path('migrations')
       ], 'migrations');
+
+      $this->publishes([
+        __DIR__.'/../Database/Seeds/' => database_path('seeds')
+      ], 'seeds');
+
     }
 
     /**

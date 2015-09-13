@@ -1,6 +1,6 @@
 <?php
 
-namespace Mari\Core\Http\Models;
+namespace Mari\Post\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

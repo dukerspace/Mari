@@ -1,6 +1,6 @@
 {
     "name": "Dukerspace/Mari",
-    "description": "Mari is Core CMS base on Laravel",
+    "description": "Mari is engine to drive Mira CMS.",
     "keywords": [
         "CMS",
         "Mari"
@@ -10,7 +10,7 @@
     "authors": [
         {
             "name": "Montol Saklor",
-            "email": ":freespace_master@hotmail.com",
+            "email": "freespace_master@hotmail.com",
             "homepage": "https://github.com/dukerspace",
             "role": "Developer"
         }
